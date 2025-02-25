@@ -46,8 +46,3 @@ generate_scanner_data <- function(n) {
   # Return the generated dataset
   return(data)
 }
-
-# Example usage: Generate a dataset with 10,000 observations
-# Set seed for reproducibility
-set.seed(123)
-scanner_data <- generate_scanner_data(10000)
