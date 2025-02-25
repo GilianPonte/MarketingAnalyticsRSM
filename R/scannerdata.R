@@ -1,8 +1,8 @@
-generate_scanner_data <- function(n) {
+scanner_data <- function() {
   # Load necessary libraries
   library(dplyr)
   library(ggplot2)
-  
+  n = 456022
   # Define chain names
   ChainNames <- c("Albert Heijn", "Jumbo")
   
@@ -70,7 +70,7 @@ generate_scanner_data <- function(n) {
     beta_loyalty * LoyaltyProgram + 
     beta_income * Income +
     beta_coupon * TargetedCoupon +
-    rnorm(n, mean = 0, sd = 5)  # Add random noise
+    rnorm(n, mean = 0, sd = 10)  # Add random noise
   
   # Create a dataframe
   data <- data.frame(Chain = factor(Chain), 
