@@ -1,5 +1,5 @@
 export(generate_scanner_data)
-export(run_scanner_regression)
 import(dplyr)
 import(ggplot2)
+import(tidyverse)
 import(stats)
