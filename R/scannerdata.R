@@ -6,7 +6,7 @@ scanner_data <- function() {
   # Set seed for reproducibility
   set.seed(123)
   
-  n = 45602  # Number of observations
+  n = 45602  # Number of observations (individual customers)
   
   # Define chain names
   ChainNames <- c("Albert Heijn", "Jumbo")
@@ -38,29 +38,52 @@ scanner_data <- function() {
   Price_with_discount <- BasePrice * (1 - Discount)
   Price_without_discount <- BasePrice  # Base price without discount
   
-  # Generate income (ensuring no negatives)
-  Income <- pmax(rnorm(n, mean = 40000, sd = 15000), 10000)  # Ensuring income ≥ €10,000
+  # Generate customer-level characteristics
+  Income <- pmax(rnorm(n, mean = 40000, sd = 15000), 10000)  # Income ≥ €10,000
+  Age <- sample(18:80, n, replace = TRUE)  # Age between 18 and 80
+  HouseholdSize <- sample(1:6, n, replace = TRUE, prob = c(0.2, 0.3, 0.2, 0.15, 0.1, 0.05))  # Family size
+  Education <- sample(c("No Degree", "High School", "Bachelor's", "Master's", "PhD"), 
+                      n, replace = TRUE, prob = c(0.1, 0.4, 0.3, 0.15, 0.05))
   
-  # Define the true DGP (Data Generating Process)
-  beta_0 <- 500  # Intercept
-  beta_price_discount <- -2  # Price with discount effect
-  beta_price_no_discount <- -1.5  # Price without discount effect
-  beta_temp <- 20  # Effect of temperature on sales
-  beta_chain <- rnorm(length(ChainNames), 0, 50)  # Chain-specific random effects
-  beta_brand <- rnorm(length(BrandNames), 0, 30)  # Brand-specific random effects
-  beta_week <- sin(2 * pi * Week / 52) * 100  # Seasonal effect over 52 weeks
-  beta_income <- 0.0005  # Small positive effect of income on sales
+  # Convert categorical variables into factors
+  Education <- factor(Education, levels = c("No Degree", "High School", "Bachelor's", "Master's", "PhD"))
   
-  # Generate sales using the defined DGP (excluding Loyalty & Targeted Coupon)
-  UnitSales <- beta_0 + 
-    beta_price_discount * Price_with_discount +
-    beta_price_no_discount * Price_without_discount +
-    beta_temp * Temperature + 
-    beta_chain[match(Chain, ChainNames)] +  # Corrected indexing
-    beta_brand[match(Brand, BrandNames)] +  # Corrected indexing
-    beta_week + 
-    beta_income * Income +
-    rnorm(n, mean = 0, sd = 10)  # Add random noise
+  # **Loyalty Program Membership Probability Model**
+  loyalty_prob <- plogis(-3 + 0.00003 * Income + 1.5 * (Chain == "Albert Heijn") + 0.05 * Week)
+  LoyaltyProgram <- rbinom(n, 1, loyalty_prob)  # Assign membership using binomial draw
+  
+  # **Assign Targeted Coupon RANDOMLY**
+  TargetedCoupon <- rbinom(n, 1, 0.3)  # 30% probability of receiving a coupon, independent of covariates
+  
+  # Define the true DGP (Data Generating Process) for **individual-level revenue**
+  beta_0 <- 0.5  # Small intercept for individual-level revenue
+  beta_price_discount <- -0.3  # Smaller effect per unit purchase
+  beta_price_no_discount <- -0.2  # Still influences revenue, but less extreme
+  beta_temp <- 0.1  # Small but noticeable effect of temperature
+  beta_chain <- rnorm(length(ChainNames), 0, 0.2)  # Chain-specific small effects
+  beta_brand <- rnorm(length(BrandNames), 0, 0.3)  # Brand-specific small effects
+  beta_week <- sin(2 * pi * Week / 52) * 0.5  # Seasonal revenue variations
+  beta_loyalty <- 0.8  # Loyalty members tend to buy slightly more
+  beta_income <- 0.00001  # Minor effect of income on revenue
+  beta_coupon <- 1.5  # Coupons increase revenue but on a small scale
+  beta_age <- 0.002  # Older customers may spend slightly more
+  beta_household <- 0.3  # Larger households buy more lemonade
+  beta_education <- c("No Degree" = -0.2, "High School" = 0, "Bachelor's" = 0.1, "Master's" = 0.2, "PhD" = 0.3)  # Education impact
+  
+  # Generate revenue per customer
+  Revenue <- pmax(0, beta_price_discount * Price_with_discount +
+                    beta_price_no_discount * Price_without_discount +
+                    beta_temp * Temperature + 
+                    beta_chain[match(Chain, ChainNames)] +  
+                    beta_brand[match(Brand, BrandNames)] +  
+                    beta_week + 
+                    beta_loyalty * LoyaltyProgram + 
+                    beta_income * Income +
+                    beta_coupon * TargetedCoupon +
+                    beta_age * Age +
+                    beta_household * HouseholdSize +
+                    beta_education[as.character(Education)] +
+                    rnorm(n, mean = 0, sd = 0.5))  # Small variation in revenue
   
   # Create a dataframe
   data <- data.frame(Chain = factor(Chain), 
@@ -69,8 +92,13 @@ scanner_data <- function() {
                      Temperature, 
                      Price_with_discount, 
                      Price_without_discount, 
+                     LoyaltyProgram, 
                      Income, 
-                     UnitSales)
+                     Age, 
+                     HouseholdSize,
+                     Education,
+                     TargetedCoupon,
+                     Revenue)
   
   # Return the generated dataset
   return(data)
