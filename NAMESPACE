@@ -1,5 +1,4 @@
 export(scanner_data)
-export(conjoint)
 import(dplyr)
 import(ggplot2)
 import(tidyverse)
