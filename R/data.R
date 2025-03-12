@@ -22,3 +22,21 @@
 #' data(conjoint)
 #' head(conjoint)
 "conjoint"
+
+#' RFM Analysis Dataset
+#'
+#' A dataset used for RFM (Recency, Frequency, and Monetary) analysis in marketing.
+#'
+#' @format A data frame with multiple rows and the following columns:
+#' \describe{
+#'   \item{customer_id}{Unique identifier for each customer}
+#'   \item{recency}{Number of days since the last purchase}
+#'   \item{frequency}{Number of purchases made by the customer}
+#'   \item{monetary}{Total amount spent by the customer}
+#'   \item{segment}{Categorical variable indicating customer segment (e.g., "High Value", "Churn Risk")}
+#' }
+#' @source \url{https://github.com/GilianPonte/MarketingAnalyticsRSM}
+#' @examples
+#' data(rfm)
+#' head(rfm)
+"rfm"
