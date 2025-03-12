@@ -37,6 +37,6 @@
 #' }
 #' @source \url{https://github.com/GilianPonte/MarketingAnalyticsRSM}
 #' @examples
-#' data(rfm)
-#' head(rfm)
-"rfm"
+#' data(m9_rfm)
+#' head(m9_rfm)
+"m9_rfm"
