@@ -1,5 +1,4 @@
 export(scanner_data)
-export(m9_rfm)
 import(dplyr)
 import(ggplot2)
 import(tidyverse)
