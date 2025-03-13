@@ -29,15 +29,17 @@ download_rfm_data <- function() {
 #' @export
 rfm_from_transactions <- function(transactions) {
   transactions %>%
-    dplyr::mutate(transaction = revenue > 0) %>%  # Create a logical column for valid transactions
-    dplyr::group_by(ID) %>%
-    dplyr::summarise(
-      x = sum(transaction),  # Count total transactions per customer
-      t.x = max(week[transaction]),  # Get last transaction week
-      m.x = ifelse(x > 0, sum(revenue[transaction]) / x, 0),  # Compute mean revenue per transaction
-      n.cal = 52  # Fixed calendar period of 52 weeks
-    ) %>%
-    dplyr::mutate(m.x = dplyr::coalesce(m.x, 0))  # Replace NA values in m.x with 0
+  dplyr::mutate(
+    transaction = revenue > 0  # Create a logical column indicating valid transactions
+  ) %>%
+  dplyr::group_by(ID) %>%
+  dplyr::summarise(
+    x = sum(transaction),  # Count the number of transactions per customer
+    t.x = ifelse(x > 0, max(week[transaction], na.rm = TRUE), 0),  # Ensure `t.x` is 0 if no transactions
+    m.x = ifelse(x > 0, sum(revenue[transaction]) / x, 0),  # Compute mean revenue safely
+    n.cal = 52  # Fixed calendar period (52 weeks)
+  ) %>%
+  dplyr::mutate(m.x = dplyr::coalesce(m.x, 0))  # Replace any NA values in m.x with 0
 }
 
 #' Generate Synthetic Scanner Data for Customer Transactions
