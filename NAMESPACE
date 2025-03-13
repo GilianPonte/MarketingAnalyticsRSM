@@ -1,3 +1,4 @@
+export(download_rfm_data)
 export(scanner_data)
 import(dplyr)
 import(ggplot2)
