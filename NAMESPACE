@@ -1,5 +1,6 @@
 export(scanner_data)
-export(data)
+export(rfm_from_transactions)
+export(download_rfm_data)
 import(dplyr)
 import(ggplot2)
 import(tidyverse)
