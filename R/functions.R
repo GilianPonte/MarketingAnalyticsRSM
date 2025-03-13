@@ -1,8 +1,8 @@
 #' Download and Load RFM Data from GitHub
 #'
-#' This function downloads the `rfm.rda` file from GitHub and loads it into the global environment.
+#' This function downloads the rfm.rda file from GitHub and loads it into the global environment.
 #' 
-#' @return Loads the `rfm` dataset into the global environment.
+#' @return Loads the rfm dataset into the global environment.
 #' @export
 download_rfm_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/rfm.rda"
@@ -20,7 +20,7 @@ download_rfm_data <- function() {
 #' This function calculates Recency, Frequency, and Monetary (RFM) metrics 
 #' from a transaction dataset.
 #'
-#' @param transactions A dataframe with columns `ID`, `week`, and `revenue`.
+#' @param transactions A dataframe with columns ID, week, and revenue.
 #' @return A tibble with columns:
 #'   \item{x}{Number of transactions per customer}
 #'   \item{t.x}{Last transaction week for each customer}
@@ -154,5 +154,3 @@ scanner_data <- function() {
   
   return(data)
 }
-
-devtools::document()
