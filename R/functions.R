@@ -156,3 +156,21 @@ scanner_data <- function() {
   
   return(data)
 }
+
+
+#' Download and Load RFM Data from GitHub
+#'
+#' This function downloads the rta.rda file from GitHub and loads it into the global environment.
+#' 
+#' @return Loads the rta dataset into the global environment.
+#' @export
+download_rta_data <- function() {
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/rta.rda"
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
+}
