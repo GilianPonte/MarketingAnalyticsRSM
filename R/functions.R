@@ -1,3 +1,47 @@
+#' Download and Load RFM Data from GitHub
+#'
+#' This function downloads the rfm.rda file from GitHub and loads it into the global environment.
+#' 
+#' @return Loads the rfm dataset into the global environment.
+#' @export
+download_rfm_data <- function() {
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/rfm.rda"
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
+}
+
+#' Generate RFM Metrics from Transactions Data
+#'
+#' This function calculates Recency, Frequency, and Monetary (RFM) metrics 
+#' from a transaction dataset.
+#'
+#' @param transactions A dataframe with columns ID, week, and revenue.
+#' @return A tibble with columns:
+#'   \item{x}{Number of transactions per customer}
+#'   \item{t.x}{Last transaction week for each customer}
+#'   \item{m.x}{Average revenue per transaction}
+#'   \item{n.cal}{Fixed calendar period (52 weeks)}
+#' @export
+rfm_from_transactions <- function(transactions) {
+  transactions %>%
+    dplyr::mutate(
+      transaction = revenue > 0  # Create a logical column indicating valid transactions
+    ) %>%
+    dplyr::group_by(ID) %>%
+    dplyr::summarise(
+      x = sum(transaction),  # Count the number of transactions per customer
+      t.x = ifelse(x > 0, max(week[transaction], na.rm = TRUE), 0),  # Ensure `t.x` is 0 if no transactions
+      m.x = ifelse(x > 0, sum(revenue[transaction]) / x, 0),  # Compute mean revenue safely
+      n.cal = 52  # Fixed calendar period (52 weeks)
+    ) %>%
+    dplyr::mutate(m.x = dplyr::coalesce(m.x, 0))  # Replace any NA values in m.x with 0
+}
+
 #' Generate Synthetic Scanner Data for Customer Transactions
 #'
 #' This function simulates scanner data, including customer demographics, 
@@ -114,92 +158,70 @@ scanner_data <- function() {
 }
 
 
-#' Download and Load a Dataset from GitHub with Custom Name
+#' Download and Load RFM Data from GitHub
 #'
-#' @param url URL of the .rda file on GitHub
-#' @param new_name The name to assign to the dataset in the global environment
-#' @return Loads the dataset into the global environment with a custom name
-data <- function(url, new_name) {
-  destfile <- tempfile(fileext = ".rda")
-  temp_env <- new.env()
-  download.file(url, destfile, mode = "wb")
-  load(destfile, envir = temp_env)
-  old_name <- ls(temp_env)[1]
-  assign(new_name, get(old_name, envir = temp_env), envir = .GlobalEnv)
-  rm(list = old_name, envir = temp_env)
-}
-
-#' Download and Load RFM Data
-#'
-#' @param new_name Name to assign to the loaded dataset
-#' @return Loads the RFM dataset into the global environment
+#' This function downloads the rta.rda file from GitHub and loads it into the global environment.
+#' 
+#' @return Loads the rta dataset into the global environment.
 #' @export
-download_rfm_data <- function(new_name = "rfm") {
-  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/rfm.rda"
-  download_and_rename(url, new_name)
-}
-#' Generate RFM Metrics from Transactions Data
-#'
-#' This function calculates Recency, Frequency, and Monetary (RFM) metrics 
-#' from a transaction dataset.
-#'
-#' @param transactions A dataframe with columns ID, week, and revenue.
-#' @return A tibble with columns:
-#'   \item{x}{Number of transactions per customer}
-#'   \item{t.x}{Last transaction week for each customer}
-#'   \item{m.x}{Average revenue per transaction}
-#'   \item{n.cal}{Fixed calendar period (52 weeks)}
-#' @export
-rfm_from_transactions <- function(transactions) {
-  transactions %>%
-    dplyr::mutate(
-      transaction = revenue > 0  # Create a logical column indicating valid transactions
-    ) %>%
-    dplyr::group_by(ID) %>%
-    dplyr::summarise(
-      x = sum(transaction),  # Count the number of transactions per customer
-      t.x = ifelse(x > 0, max(week[transaction], na.rm = TRUE), 0),  # Ensure t.x is 0 if no transactions
-      m.x = ifelse(x > 0, sum(revenue[transaction]) / x, 0),  # Compute mean revenue safely
-      n.cal = 52  # Fixed calendar period (52 weeks)
-    ) %>%
-    dplyr::mutate(m.x = dplyr::coalesce(m.x, 0))  # Replace any NA values in m.x with 0
-}
-#' Download and Load RTA Data
-#'
-#' @param new_name Name to assign to the loaded dataset
-#' @return Loads the RTA dataset into the global environment
-#' @export
-download_rta_data <- function(new_name = "rta") {
+download_rta_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/rta.rda"
-  download_and_rename(url, new_name)
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
 }
 
-#' Download and Load Customers Data for OLS
+#' Download and Load ps1_ols Data from GitHub
 #'
-#' @param new_name Name to assign to the loaded dataset
-#' @return Loads the customers dataset into the global environment
+#' This function downloads the ps1_ols.rda file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the ps1_ols dataset into the global environment.
 #' @export
-download_ps1_ols_data <- function(new_name = "ps1_ols") {
+download_ps1_ols_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/customers.rda"
-  download_and_rename(url, new_name)
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
 }
 
-#' Download and Load Cancellations Data for Logistic Regression
+#' Download and Load ps1_logistic Data from GitHub
 #'
-#' @param new_name Name to assign to the loaded dataset
-#' @return Loads the cancellations dataset into the global environment
+#' This function downloads the ps1_logistic.rda file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the ps1_logistic dataset into the global environment.
 #' @export
-download_ps1_logistic_data <- function(new_name = "ps1_logistic") {
+download_ps1_logistic_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/cancellations.rda"
-  download_and_rename(url, new_name)
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
 }
 
-#' Download and Load Conjoint Data
+#' Download and Load conjoint data from GitHub
 #'
-#' @param new_name Name to assign to the loaded dataset
-#' @return Loads the conjoint dataset into the global environment
+#' This function downloads the conjoint file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the conjoint dataset into the global environment.
 #' @export
-download_ps1_conjoint_data <- function(new_name = "conjoint") {
+download_ps1_conjoint_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/conjoint.rda"
-  download_and_rename(url, new_name)
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
 }

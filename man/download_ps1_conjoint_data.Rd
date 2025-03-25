@@ -2,16 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{download_ps1_conjoint_data}
 \alias{download_ps1_conjoint_data}
-\title{Download and Load Conjoint Data}
+\title{Download and Load conjoint data from GitHub}
 \usage{
-download_ps1_conjoint_data(new_name = "conjoint")
-}
-\arguments{
-\item{new_name}{Name to assign to the loaded dataset}
+download_ps1_conjoint_data()
 }
 \value{
-Loads the conjoint dataset into the global environment
+Loads the conjoint dataset into the global environment.
 }
 \description{
-Download and Load Conjoint Data
+This function downloads the conjoint file from GitHub and loads it into the global environment.
 }

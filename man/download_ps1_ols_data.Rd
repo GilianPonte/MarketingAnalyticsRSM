@@ -2,16 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{download_ps1_ols_data}
 \alias{download_ps1_ols_data}
-\title{Download and Load Customers Data for OLS}
+\title{Download and Load ps1_ols Data from GitHub}
 \usage{
-download_ps1_ols_data(new_name = "ps1_ols")
-}
-\arguments{
-\item{new_name}{Name to assign to the loaded dataset}
+download_ps1_ols_data()
 }
 \value{
-Loads the customers dataset into the global environment
+Loads the ps1_ols dataset into the global environment.
 }
 \description{
-Download and Load Customers Data for OLS
+This function downloads the ps1_ols.rda file from GitHub and loads it into the global environment.
 }

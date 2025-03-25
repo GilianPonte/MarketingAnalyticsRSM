@@ -2,16 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{download_ps1_logistic_data}
 \alias{download_ps1_logistic_data}
-\title{Download and Load Cancellations Data for Logistic Regression}
+\title{Download and Load ps1_logistic Data from GitHub}
 \usage{
-download_ps1_logistic_data(new_name = "ps1_logistic")
-}
-\arguments{
-\item{new_name}{Name to assign to the loaded dataset}
+download_ps1_logistic_data()
 }
 \value{
-Loads the cancellations dataset into the global environment
+Loads the ps1_logistic dataset into the global environment.
 }
 \description{
-Download and Load Cancellations Data for Logistic Regression
+This function downloads the ps1_logistic.rda file from GitHub and loads it into the global environment.
 }
