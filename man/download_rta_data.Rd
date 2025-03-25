@@ -2,13 +2,16 @@
 % Please edit documentation in R/functions.R
 \name{download_rta_data}
 \alias{download_rta_data}
-\title{Download and Load RFM Data from GitHub}
+\title{Download and Load RTA Data}
 \usage{
-download_rta_data()
+download_rta_data(new_name = "rta")
+}
+\arguments{
+\item{new_name}{Name to assign to the loaded dataset}
 }
 \value{
-Loads the rta dataset into the global environment.
+Loads the RTA dataset into the global environment
 }
 \description{
-This function downloads the rta.rda file from GitHub and loads it into the global environment.
+Download and Load RTA Data
 }

@@ -2,13 +2,16 @@
 % Please edit documentation in R/functions.R
 \name{download_rfm_data}
 \alias{download_rfm_data}
-\title{Download and Load RFM Data from GitHub}
+\title{Download and Load RFM Data}
 \usage{
-download_rfm_data()
+download_rfm_data(new_name = "rfm")
+}
+\arguments{
+\item{new_name}{Name to assign to the loaded dataset}
 }
 \value{
-Loads the rfm dataset into the global environment.
+Loads the RFM dataset into the global environment
 }
 \description{
-This function downloads the rfm.rda file from GitHub and loads it into the global environment.
+Download and Load RFM Data
 }
