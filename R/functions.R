@@ -191,3 +191,20 @@ download_ps1_ols_data <- function() {
   # Load the dataset into the global environment
   load(destfile, envir = .GlobalEnv)
 }
+
+#' Download and Load ps1_logistic Data from GitHub
+#'
+#' This function downloads the ps1_logistic.rda file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the ps1_logistic dataset into the global environment.
+#' @export
+download_ps1_logistic_data <- function() {
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/ps1_logistic.rda"
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
+}
