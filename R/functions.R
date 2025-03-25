@@ -182,7 +182,7 @@ download_rta_data <- function() {
 #' @return Loads the ps1_ols dataset into the global environment.
 #' @export
 download_ps1_ols_data <- function() {
-  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/ps1_ols.rda"
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/customers.rda"
   destfile <- tempfile(fileext = ".rda")
   
   # Download the file
@@ -199,7 +199,24 @@ download_ps1_ols_data <- function() {
 #' @return Loads the ps1_logistic dataset into the global environment.
 #' @export
 download_ps1_logistic_data <- function() {
-  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/ps1_logistic.rda"
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/cancellations.rda"
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
+}
+
+#' Download and Load conjoint data from GitHub
+#'
+#' This function downloads the conjoint file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the conjoint dataset into the global environment.
+#' @export
+download_ps1_conjoint_data <- function() {
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/conjoint.rda"
   destfile <- tempfile(fileext = ".rda")
   
   # Download the file
