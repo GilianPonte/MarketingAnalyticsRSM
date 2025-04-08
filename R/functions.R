@@ -225,3 +225,20 @@ download_ps1_conjoint_data <- function() {
   # Load the dataset into the global environment
   load(destfile, envir = .GlobalEnv)
 }
+
+#' Download and Load conjoint data from GitHub
+#'
+#' This function downloads the conjoint file from GitHub and loads it into the global environment.
+#'
+#' @return Loads the conjoint data into the global environment.
+#' @export
+download_ps1_conjoint_data <- function() {
+  url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/ps2_conjoint.rda"
+  destfile <- tempfile(fileext = ".rda")
+  
+  # Download the file
+  download.file(url, destfile, mode = "wb")
+  
+  # Load the dataset into the global environment
+  load(destfile, envir = .GlobalEnv)
+}
