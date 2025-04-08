@@ -232,7 +232,7 @@ download_ps1_conjoint_data <- function() {
 #'
 #' @return Loads the conjoint data into the global environment.
 #' @export
-download_ps1_conjoint_data <- function() {
+download_conjoint_data <- function() {
   url <- "https://raw.githubusercontent.com/GilianPonte/MarketingAnalyticsRSM/main/data/ps2_conjoint.rda"
   destfile <- tempfile(fileext = ".rda")
   
