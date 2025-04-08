@@ -10,6 +10,7 @@ download_ps1_conjoint_data()
 }
 \value{
 Loads the conjoint dataset into the global environment.
+
 Loads the conjoint data into the global environment.
 }
 \description{
